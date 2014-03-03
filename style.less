@@ -1,0 +1,196 @@
+// set some default variables
+
+@red: #e74c3c;
+@green: #27ae60;
+@dark: #444;
+//@color-yellow: #f1c40f;
+@serif: 'Georgia';
+@sans-serif: 'Helvetica', 'Arial';
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+@import 'elements.less'; // http://lesselements.com/
+@import 'lib/basic-buttons/basic-buttons.less';
+@import 'lib/dropdown/dropdown.less'; // https://github.com/kjantzer/backbonejs-dropdown-view
+
+@import 'src/list-controller.less';
+
+
+// demo styles
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+#demo {
+	margin: -15px;
+	height: 450px;
+	
+	&.fullscreen {
+		position: fixed;
+		top: 0;
+		left: 0;
+		margin: 0;
+		height: 100%;
+		width: 100%;
+		background: #fff;
+		z-index: 100;
+	}
+	
+	.filter-bar {
+		height: 56px;
+		padding: 15px;
+		border-bottom: solid 1px #ddd;
+		-webkit-box-shadow: #ccc 0px 3px 5px -4px;
+		   -moz-box-shadow: #ccc 0px 3px 5px -4px;
+		   		box-shadow: #ccc 0px 3px 5px -4px;
+		   		
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		   		
+		a:hover {
+			text-decoration: none;
+		}
+		 
+		.count {
+			display: inline-block;
+			min-height: 1em;
+			margin-right: 5px;
+			color: #777;
+			vertical-align: middle;
+		}
+		
+		.sorts {
+			display: inline-block;
+		}
+		
+		.filters {
+			display: inline-block;
+			
+			a.btn {
+				margin-left: 5px;
+				
+				&.optional {
+					border-style: dashed;
+				}
+			}
+		}
+		   		
+		input.filter, input.filter:focus {
+			background: #fff  url('src/search-icon.png') 7px center no-repeat !important;
+			border: solid 1px #ccc;
+			.rounded(4px);
+			font-size: 12px;
+			padding: 4px;
+			padding-left: 26px;
+			float: right;
+			outline: none;
+			
+			
+			&.auto-hide {
+				width: 150px;
+				.transition(200ms);
+			}
+			
+			// if auto-hide is NOT focused and the VALUE is empty, "hide" the input
+			&.auto-hide:not(:focus):not([value]),
+			&.auto-hide:not(:focus)[value=""] {
+				width: 33px;
+				background-color: transparent !important;
+				border-color: transparent;
+				.box-shadow(none);
+				opacity: .4;
+				cursor: pointer;
+			}
+			
+			// if auto-hide is NOT focused and the VALUE is empty, increase opacity when hovered
+			&.auto-hide:not(:focus):not([value]):hover,
+			&.auto-hide:not(:focus)[value=""]:hover {
+				opacity: .75;
+			}
+		}
+	}
+	
+	.list {
+		list-style: none;
+		height: ~"calc(100% - 56px)";
+		overflow-y: auto;
+		padding: 0;
+		margin: 0;
+	}
+	
+	.list > li {
+		border-bottom: solid 1px #ddd;
+		padding: 10px 15px;
+		margin: 0;
+	}
+	
+	.list > li.end-of-list {
+		color: #aaa;
+		text-align: center;
+		border-bottom: none;
+		
+		p {
+			float: none;
+			margin: 0px;
+		}
+	}
+	
+	
+	
+	.list > li {
+		
+		h4 {
+			display: inline-block;
+			max-width: 70%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			vertical-align: middle;
+			
+			> span {
+				font-weight: normal;
+				color: #aaa;
+			}
+		}
+		
+	
+		div[class*='color-'] {
+			display: inline-block;
+			width: 1em;
+			height: 1em;
+			.rounded(3px);
+			margin-right: .25em;
+			vertical-align: middle;
+		}
+		
+		div.color-blue		{ background: #2980b9; }
+		div.color-yellow	{ background: #f1c40f; }
+		div.color-green		{ background: #27ae60; }
+		div.color-red		{ background: #e74c3c; }
+		div.color-orange	{ background: #e67e22; }
+		
+		p {
+			float: right;
+			margin: 10px 0 0 0;
+		}
+	}
+	
+}

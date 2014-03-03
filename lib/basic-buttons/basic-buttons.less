@@ -1,0 +1,294 @@
+/*
+	Basic Buttons
+	
+	@author Kevin Jantzer
+	@since 2014-01-28
+	
+	requires elements.less
+	
+	Uses Fontello service for icons
+*/
+
+@import url('basic-button-icon-font.less');
+
+
+
+@btn-font-family		: 'HelveticaNeue', 'Helvetica', 'Calbri', 'sans-serif';
+@btn-radius				: 3px;
+@btn-border-width		: 1px;
+@btn-transition-speed	: 120ms;
+
+@btn-color-dark			: #444;
+@btn-color-primary		: @btn-color-dark;
+@btn-color-secondary	: #ddd;
+@btn-color-red			: #c0392b;
+@btn-color-green		: #27ae60;
+@btn-color-sage			: #c6e59a;
+@btn-color-blue			: #3498db;
+@btn-color-orange		: #f39c12;
+@btn-color-flatpurple	: #9c9fbf;
+@btn-color-palegold		: #f7f6c3;
+@btn-color-yellow		: #f1c40f;
+@btn-color-gold			: #e5c263;
+@btn-color-teal			: #04acbe;
+@btn-color-volt			: #b8dd00;
+
+
+.subtle-hover(@color, @textColor:#fff){
+	background: @color;
+	border-color: @color;
+	color: @textColor
+}
+
+.color-btn(@color, @textColor:#fff){
+	background: @color;
+	border-color: @color;
+	color: @textColor;
+	
+	&:not(.disabled):hover {
+		background: lighten(@color, 5%);
+		border-color: lighten(@color, 5%);
+	}
+}
+
+
+.btn, .btn:visited, button {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	vertical-align: middle;
+	padding: .4em .65em;
+	text-decoration: none;
+	.rounded(@btn-radius);
+	border: solid @btn-border-width #ccc;
+	background: transparent;
+	box-shadow: none;
+	font-family: @btn-font-family;
+	font-size: .9em;
+	font-size: 14px;
+	line-height: 1em;
+	font-weight: bold;
+	color: #888;
+	text-shadow: none;
+	font-smooth:always;
+	text-decoration: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	
+	-webkit-transition: all @btn-transition-speed;
+	   -moz-transition: all @btn-transition-speed;
+	   		transition: all @btn-transition-speed;
+	
+	&.pill { .rounded(100px); }
+	
+	&.disabled {
+		cursor: default;
+		opacity: .3;
+		pointer-events: none;
+	}
+	
+	&.on-dark {
+		border-color: #f5f5f5;
+		color: #f5f5f5;
+	}
+	
+/*
+	HOVER STATES
+*/
+	&:hover { background: #f9f9f9; color: @btn-color-dark; }
+	
+	&.hover-red:hover 		{ .subtle-hover(@btn-color-red); }
+	&.hover-dark:hover		{ .subtle-hover(@btn-color-dark); }
+	&.hover-primary:hover	{ .subtle-hover(@btn-color-dark); }
+	&.hover-green:hover		{ .subtle-hover(@btn-color-green); }
+	&.hover-yellow:hover	{ .subtle-hover(@btn-color-yellow); }
+	&.hover-gold:hover		{ .subtle-hover(@btn-color-gold); }
+	&.hover-blue:hover		{ .subtle-hover(@btn-color-blue); }
+	
+	
+/*
+	COLORS
+*/
+	&.white {
+		background: #eee;
+		border-color: #eee;
+		color: @btn-color-dark;
+		
+		&:hover {
+			background: #ddd;
+			border-color: #ddd;
+		}
+	}
+	
+	&.primary	{ .color-btn(@btn-color-primary); }
+	&.secondary	{ .color-btn(@btn-color-secondary, @btn-color-dark); }
+	&.red		{ .color-btn(@btn-color-red); }
+	&.green		{ .color-btn(@btn-color-green); }
+	&.sage		{ .color-btn(@btn-color-sage, @btn-color-dark) }
+	&.blue		{ .color-btn(@btn-color-blue); }
+	&.orange	{ .color-btn(@btn-color-orange); }
+	&.purple	{ .color-btn(@btn-color-flatpurple); }
+	&.palegold	{ .color-btn(@btn-color-palegold, @btn-color-dark); }
+	&.yellow	{ .color-btn(@btn-color-yellow, @btn-color-dark); }
+	&.gold		{ .color-btn(@btn-color-gold, @btn-color-dark); }
+	&.teal		{ .color-btn(@btn-color-teal); }
+	&.volt		{ .color-btn(@btn-color-volt, @btn-color-dark); }
+	
+	&.primary:hover	{ background: #666; }
+	
+	
+/*
+	SIZES
+*/
+	&.tiny {
+		font-size: .7em;
+		padding: .3em .5em;
+	}
+
+	&.medium {
+		font-size: 1.2em;
+		line-height: 1em;
+		//padding: .4em .65em;
+	}
+	
+	&.large {
+		font-size: 1.5em;
+		line-height: 1em;
+		border-width: @btn-border-width+1;
+	}
+	
+	&.huge {
+		font-size: 2.5em;
+		line-height: 1em;
+		border-width: @btn-border-width+1;
+	}
+	
+	
+	
+/*
+	ICONS
+*/
+	&[class^="icon-"],
+	&[class*=" icon-"] {
+		
+		&:before {
+			font-size: 1em;
+			line-height: 1em;
+			margin: 0 .3em 0 -0.2em;
+			vertical-align: bottom;
+		}
+		
+		&:empty:before,
+		&.icon-only:before {
+			margin-left: -.3em;
+			margin-right: -.3em;
+		}
+		
+		/*&.large, &.super, &.huge {
+			&:before {
+				line-height: 1em;
+				font-size: 1em;
+			}
+		}*/
+		
+		&.clear {
+			font-size: 1.2em;
+			padding: 2px 0px 2px;
+			
+			&:hover { color: #000; }
+	
+			&.small { font-size: .9em; }
+		}
+		
+		
+	}
+	
+}
+
+
+.me-size.btn {
+	padding: 7px 10px 6px 10px;
+	font-family: 'Lucida Grande';
+	font-weight: normal;
+	font-size: 14px;
+}
+
+
+
+
+// BUTTON GROUP
+.btn-group {
+	display: inline-block;
+	position: relative;
+	.rounded(@btn-radius);
+	border: solid 1px #ccc;
+	
+	> .btn {
+		.box-shadow(none);
+		border: none;
+		float: left;
+		.border-radius(0px);
+		margin: 0 !important;
+		
+		&:first-child:not(:last-child) {.border-radius(0, 0, @btn-radius, @btn-radius);}
+		&:first-child:last-child {.rounded(@btn-radius);}
+		&:last-child:not(:first-child) {.border-radius(@btn-radius, @btn-radius, 0, 0);}
+		&:not(:first-child) {
+			border-left: 1px solid rgba(0, 0, 0, 0.15);
+		}
+		
+		
+		// NOTE: I need to add this to the btn-color() mixin instead
+		&.active {
+			color: rgba(0,0,0,.5);
+			.box-shadow(rgba(0,0,0,.1) 0 1px 3px inset);
+			.gradient(#f5f5f5, #f5f5f5, #ddd);
+		}
+		
+	}
+	
+	
+	&.crumbs {
+		.box-shadow(none);
+		border: none;
+		
+		.btn {
+			padding-right: 5px;
+			padding-left: 5px;
+			padding-top: 0;
+			padding-bottom: 0;
+			background: transparent !important;
+			border-color: #ccc !important;
+			
+			> span {
+				display: inline-block;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				max-width: 70px;
+				color: #999 !important;
+				-webkit-transition: 300ms max-width;
+				   -moz-transition: 300ms max-width;
+				   		transition: 300ms max-width;
+			}
+			
+			&:before {
+				margin-right: 1px !important;
+			}
+			
+			&:hover > span {
+				color: @btn-color-dark !important;
+				max-width: 500px;
+			}
+		}
+		
+		.btn:last-child {
+			cursor: default;
+			color: @btn-color-dark !important;
+		}
+		
+	}
+	
+}
