@@ -27,7 +27,17 @@
 	
 	Tip:
 	Use LiquidMetal to score the search term for better results (https://github.com/rmm5t/liquidmetal)
+
+
+
+	!!!! DEPRECATED !!!! 
+	!!!! DEPRECATED !!!!
+	!!!! DEPRECATED !!!!
+
+	FilterView has been integrated directly into ListController but we are keeping this class
+	because there are some legacy views that extend it directly (marketing tags, book quotes, book channels, partners, etc)
 */
+
 var FilterView = Backbone.View.extend({
 
 	events: {
@@ -108,7 +118,7 @@ var FilterView = Backbone.View.extend({
 			if( _.isArray(filterVal) )
 				return _.contains(filterVal, model.get(filterKey).id);
 			else
-				return parseInt(model.get(filterKey).id) == filterVal;
+				return model.get(filterKey) && parseInt(model.get(filterKey).id) == filterVal;
 		},
 		'starts_with': function(model, filterVal, filterKey){
 			return (model.get(filterKey)||'').match(RegExp('^'+filterVal));

@@ -1,0 +1,437 @@
+
+.list-controller {
+	.display-flex();
+	.flex-direction(column);
+
+	.right {
+		float: right;
+	}
+
+	.filter-bar {
+		flex-shrink: 0;
+		min-height: 2.7em;
+		padding: 8px .25em 8px .5em;
+		margin-right: -1px;
+		z-index: 15;
+		.box-sizing();
+		
+		border-bottom: solid 1px #ccc;
+		-webkit-box-shadow: 0 3px 8px -5px #777;
+		   -moz-box-shadow: 0 3px 8px -5px #777;
+		        box-shadow: 0 3px 8px -5px #777;
+
+		.count {
+			//padding: 8px 5px 8px 0;
+			float: left; // added this so filter input doesn't looke weird on second open
+			display: inline-block;
+			//min-width: 32px;
+			min-height: 1em;
+			//border-right: solid 1px #ddd;
+			margin-right: 5px;
+			color: #777;
+			vertical-align: middle;
+		}
+
+		.count:not(.btn) {
+			padding: 5px;
+		}
+
+		.change-desc {
+			//padding: 6px 7px 7px;
+			//margin-right: 5px;
+		}
+
+		> .model-editor {
+			margin-left: 5px;
+		}
+
+		> .divider {
+			width: 1px;
+			height: 100%;
+			background: #ddd;
+			margin: 0 10px;
+			border: none;
+			display: inline-block;
+			line-height: 1em;
+			vertical-align: middle;
+		}
+
+		> .divider + .model-editor { margin-left: 0; }
+
+		> a.btn {
+			margin-right: 5px;
+		}
+
+		> *.right ~ input.filter { margin-right: .5em; }
+
+		> *.right {
+			//margin-top: 3px;
+		}
+
+		.bulk-select-actions {
+			display: inline-block;
+			margin-right: 5px;
+			vertical-align: middle;
+			display: none;
+
+			> * {
+				vertical-align: middle;
+				margin-right: 5px;
+			}
+		}
+
+		// disable bulk actions when nothing is selected (still shown so a user knows actions are available)
+		.count[data-selected="0"] ~ .bulk-select-actions .action {
+			opacity: .5;
+			pointer-events: none;
+		}
+
+		.sorts {
+			display: inline-block;
+			margin-right: 5px;
+			vertical-align: middle;
+		}
+
+		.filters {
+			display: inline-block;
+			vertical-align: middle;
+
+			> .btn {
+				margin-left: 5px;
+
+				> span {
+					display: inline-block;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					max-width: 140px;
+					.transition(300ms);
+				}
+
+				&:hover > span,
+				&.dropdown-open > span {
+					max-width: 1000px;
+				}
+
+				&.optional {
+					border-style: dashed;
+					border-color: #999;
+				}
+
+				&.multi:after {
+					content: '+';
+					position: absolute;
+					top: -3;
+					right: 1px;
+					font-weight: bold;
+					font-size: .8em;
+					color: #bbb;
+				}
+			}
+
+			> .btn.collection-switcher-btn {
+				background: transparent;
+				border-color: transparent;
+				color: #333;
+
+				&.dropdown-open,
+				&:hover {
+					border-bottom-color: #333;
+				}
+			}
+
+			.dropdown [data-val="reset-filters"],
+			.dropdown [data-val="queue-filters"],
+			.dropdown [data-val="filter-presets"] {
+				width: 33.2%;
+				float: left;
+				text-align: center;
+				margin-bottom: 1px;
+			}
+
+			.dropdown .icon-ccw,
+			.dropdown .icon-layers,
+			.dropdown .icon-equalizer {
+				font-weight: bold;
+			}
+		}
+
+		// unused, proof of concept
+		.filters.sidepanel {
+			position: absolute;
+			background: #fff;
+			width: 280px;
+			height: calc(100vh - 113px - 45px);
+			top: 45px;
+			left: 0;
+			box-shadow: #ccc -10px 0 12px -10px;
+			border-right: solid 1px #ddd;
+			display: flex;
+			flex-direction: column-reverse;
+			justify-content: flex-end;
+		}
+
+
+	} // .filter-bar
+
+	.header-bar {
+		.display-flex();
+		background: #fff;
+		font-size: .7em;
+		margin: 7px -15px -7px;
+
+		border-top: solid 1px #ddd;
+
+		> div {
+			padding: 4px 0;
+			color: #777;
+		}
+
+	} // .header-bar
+
+	.apply-queued-filters { display: none; }
+	&.queueing-filters .apply-queued-filters { display: inline-block; }
+	&.queueing-filters ul.list { opacity: .5; }
+
+	> .list {
+		max-height: 100%;
+		height: 100%; 		// dont think this will cause issues, but not fully tested
+		overflow: auto;
+		
+		> list {
+			.transition(padding, 300ms);
+		}
+	}
+
+	// infinite list <li> that has a spinner going
+	.list > li.has-spinner > *:not(.spinner) {
+		opacity: .5;
+	}
+
+	&.invalid-data {
+		.filter-bar .count {
+			color: @color-red;
+		}
+		ul.list {
+			opacity: .5;
+		}
+	}
+
+} // .list-controller
+
+.list-controller.bulk-select {
+
+	.filter-bar {
+
+		.bulk-select-actions {
+			display: inline-block;
+		}
+
+		.sorts, .filters {
+			display: none;
+		}
+
+	}
+}
+
+ul.list.mode-list {
+
+	> li.clickable {
+		cursor: pointer;
+		.transition(200ms) !important;
+	}
+
+	> li.clickable:hover {
+		background-color: #f9f9f9 !important;
+	}
+}
+
+ul.list.mode-grid {
+
+	> li.clickable {
+		cursor: pointer;
+		.transition(200ms) !important;
+	}
+	
+	> li.clickable:hover {
+		border-color: @color-blue !important;
+		background-color: #f9f9f9 !important;
+	}
+}
+
+
+ul.list.mode-list,
+ul.list.mode-grid {
+
+	&.bulk-select {
+
+		// disable selection while in bulk select
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+
+		> li:not(.end-of-list) {
+			padding-left: 4em !important;
+			position: relative;
+		}
+
+		> li:not(.end-of-list):before {
+			content: '\f096';
+			position: absolute;
+			z-index: 10;
+			background: #ECEFF1;
+			height: 100%;
+			width: 2em;
+			top: 0;
+			left: 0;
+			display: block;
+			box-shadow: rgb(144,164,174) -10px 0px 10px -11px inset;
+			font-family: "basic-buttons-font";
+			line-height: 2em;
+			font-size: 1.5em;
+			text-align: center;
+			color: #90a4ae;
+			cursor: pointer;
+			.transition(160);
+		}
+
+		> li.selected {
+			background: #ECEFF1;
+		}
+
+		> li.selected:before {
+			content: '\2611';
+			background-color: #B0BEC5;
+			color: #fff;
+		}
+
+		> li:not(.selected):before:hover { content: '\2611'; }
+		> li.selected:before:hover { content: '\f096' ;}
+
+	}
+
+}
+
+/*
+	List Controller View Modes
+*/
+ul.list.mode-compare,
+ul.list.mode-grid {
+	.display-flex();
+	align-content: flex-start;
+	//.justify-content(space-between);
+
+	> li {
+		width: 30%;
+		border-left: solid 1px #ddd;
+		flex-grow: 1;
+		.box-sizing();
+
+		&:first-child {
+			border-left: none;
+		}
+	}
+}
+
+
+@media (max-width: 699px){ ul.list.mode-grid > li { width: 100%; }}
+@media (min-width: 700px) and (max-width: 949px){ ul.list.mode-grid > li { width: 45%; }}
+@media (min-width: 950px) and (max-width: 1499px){ul.list.mode-grid > li { width: 30%; }}
+@media (min-width: 1500px) and (max-width: 1799px){ul.list.mode-grid > li { width: 22%; }}
+@media (min-width: 1800px){ul.list.mode-grid > li { width: 18%; }}
+
+ul.mode-list {
+
+	> li.list-divider {
+		background: #eee;
+		font-weight: bold;
+		padding-bottom: .5em;
+		text-transform: uppercase;
+	}
+
+}
+
+ul.mode-compare {
+	> li.list-divider {
+		display: none;
+	}
+}
+
+
+ul.list.mode-grid {
+	.flex-wrap(wrap);
+	background: #eee;
+	padding: .25em !important;
+	.box-sizing();
+
+	> li,
+	> li:first-child {
+		background: #fff;
+		margin: .25em !important;
+		border: solid 1px #ddd;
+	}
+
+	> li.end-of-list { min-width: 100%; }
+
+	&.grid-2 { > li { width: 45%; } }
+	&.grid-3 { > li { width: 30%; } }
+	&.grid-4 { > li { width: 22%; } }
+	&.grid-5 { > li { width: 18%; } }
+
+	> li.list-divider {
+		min-width: 80%; // forces full width (with flex-grow:1)
+		background: #eee;
+		border: none;
+		padding: 1em 0 0 .25em !important;
+		font-weight: normal;
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+}
+
+ul.list.mode-compare {
+	> li.end-of-list:not(:only-child) {
+		min-width: 0;
+		max-width: 100px !important;
+		position: relative;
+
+		> p {
+			float: none !important;
+			margin: 0px;
+			-webkit-transform: rotate(90deg);
+			-moz-transform: rotate(90deg);
+			transform: rotate(90deg);
+			width: 240px;
+			position: absolute;
+			top: 130px;
+			left: -105px;
+			text-align: left !important;
+			font-weight: bold;
+			text-transform: uppercase;
+			cursor: pointer;
+		}
+	}
+}
+
+@media (max-width: 699px){ ul.list.mode-compare > li { min-width: 100%; }}
+@media (min-width: 700px) and (max-width: 949px){ ul.list.mode-compare > li { min-width: 45%; }}
+@media (min-width: 950px) and (max-width: 1499px){ul.list.mode-compare > li { min-width: 30%; }}
+@media (min-width: 1500px) and (max-width: 1799px){ul.list.mode-compare > li { min-width: 22%; }}
+@media (min-width: 1800px){ul.list.mode-compare > li { min-width: 18%; }}
+
+
+ul.list.mode-list > li *.v-grid,
+ul.list.mode-list > li *.v-compare { display: none; }
+
+ul.list.mode-grid > li *.v-list,
+ul.list.mode-grid > li *.v-compare { display: none; }
+
+ul.list.mode-compare > li *.v-list,
+ul.list.mode-compare > li *.v-grid { display: none; }
+
+ul.list.mode-list > li *.v-list,
+ul.list.mode-grid > li *.v-grid,
+ul.list.mode-compare > li *.v-compare { display: inherit; }

@@ -6,10 +6,20 @@
 	@author Kevin Jantzer, Blacktone Audio Inc.
 	@since 2012-11-06
 	
+	OPTIONS:
+	{
+		maxRows: 30,
+		context: window,
+		className: ''
+	}
 	
-	USE	- listen for:
+	USE
+	listen for:
 	"endReached" to trigger "addMore"
 	"addOne" for what to do when "adding more"
+	call:
+	"addOne(view)" to add item to list
+
 	
 	REQUIRES
 	• waypoint.js <http://imakewebthings.com/jquery-waypoints>
@@ -18,11 +28,17 @@
 InfiniteListView = Backbone.View.extend({
 
 	tagName: 'ul',
-	
 	className: 'list',
+
+	noResultsMsg: 'No Results',
+	
+	events: {
+		'click .load-more': 'endReached'
+	},
 	
 	initialize: function($renderTo, opts){
 		
+		this._views = [];
 		this.lastRow = 0;
 		this.enabled = true;
 		
@@ -38,6 +54,26 @@ InfiniteListView = Backbone.View.extend({
 		if(this.opts.className)
 			this.$el.addClass(this.opts.className);
 	},
+
+	removeItem: function(indx, animated){
+		
+		animated = animated != undefined ? animated: true;
+
+		var el = this.el.childNodes[indx];
+		var view = this._views[indx];
+
+		this._views.splice(indx, 1); // remove view from _views
+
+		if( el ){
+
+			this.lastRow--;
+
+			view.remove(animated, this.attachWaypoint.bind(this)) // remove view, then reattach waypoint
+
+		}else{
+			console.warn('Could not find element to remove at index', indx);
+		}
+	},
 	
 	
 	/*
@@ -52,7 +88,7 @@ InfiniteListView = Backbone.View.extend({
 		
 		// dont try to add any if all are already loaded
 		if(i >= collection.length && collection.length > 0){
-			this.$endOfList.html('End of list • '+collection.length+' results')
+			this.$endOfList.html('<p>End of list • '+collection.length+' results</p>')
 			return;
 		}
 		
@@ -66,7 +102,7 @@ InfiniteListView = Backbone.View.extend({
 		
 		// no results
 		if( collection.length === 0){
-			$('<p>No Results</p>').appendTo(this.$endOfList);
+			$('<p>'+this.noResultsMsg+'</p>').appendTo(this.$endOfList);
 			this.$endOfList.appendTo(this.$el);
 			return;
 		}
@@ -87,18 +123,25 @@ InfiniteListView = Backbone.View.extend({
 		if(i >= collection.length)
 			$('<p>End of list • '+collection.length+' results</p>').appendTo(this.$endOfList);
 		else
-			$('<p>Loading more results...</p>').appendTo(this.$endOfList);
+			$('<p class="load-more">Load more</p>').appendTo(this.$endOfList);
+			//$('<p>Loading more results...</p>').appendTo(this.$endOfList);
 			
 		this.$endOfList.appendTo(this.$el);
 		
-		this.attachWaypoint(); // attach the infinite scroll waypoint
+		_.defer(this.attachWaypoint.bind(this)); // attach the infinite scroll waypoint
 		
+	},
+
+	addOne: function(view){
+		this._views.push( view );
+		this.$el.append( view.render().el );
 	},
 	
 	/*
 		End Reached - when the end is reached, the parent view should call this.addMore
 	*/
 	endReached: function(){
+		this.$endOfList.html('<p>Loading more results...</p>');
 		this.trigger('endReached');
 	},
 	
@@ -118,21 +161,31 @@ InfiniteListView = Backbone.View.extend({
 		
 		if( !this.context && _.isString(this.opts.context))
 			this.context = document.querySelector(this.opts.context);
-		
-		this.$endOfList.waypoint('destroy');
-		this.$endOfList.waypoint({
+
+		if( this.__waypoint )
+			this.__waypoint.destroy();
+
+		this.__waypoint = new Waypoint({
+			element: this.$endOfList[0],
 			offset: function() {
-				return self.context.offsetHeight - $(this).outerHeight();
+				return self.context.offsetHeight //- Math.round((this.element.clientHeight*.75));
 			},
-			onlyOnScroll: true,
-			context: this.opts.context,
-			handler: _.bind(this.endReached, this)
+			context: $(this.opts.context),
+			handler: function(){
+				this.destroy();
+				self.endReached()
+			}
 		});
 		
 	},
 	
 	clear: function(){
-		this.$el.html('');
+
+		// http://stackoverflow.com/a/20961894/484780
+		//_(this._views).invoke('cleanup'); // call remove on all views
+
+		this.$el.html(''); // still clear this el in case other views were added on their own.
+		this._views = [];
 		this.lastRow = 0;
 	},
 	

@@ -1,0 +1,36 @@
+{
+  "name": "backbone-list-controller",
+  "version": "1.0.0",
+  "description": "A powerful Backbone.js class that renders a collection of models as a list with infinite scrolling, sorting, filtering, and search field.",
+  "main": "Gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kjantzer/backbone-list-controller.git"
+  },
+  "keywords": [
+    "Backbone.js",
+    "Backbone",
+    "List",
+    "Controller",
+    "Infinite Scoll",
+    "Filter",
+    "Sort"
+  ],
+  "author": "Kevin Jantzer <kevin.jantzer@blackstoneaudio.com>",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-less": "~0.11.0",
+    "grunt-contrib-uglify": "^0.8.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "jit-grunt": "~0.7.0"
+  },
+  "dependencies": {
+    "backbone": "0.9.10",
+    "backbone-dropdown": "^1.0.0",
+    "backbone-modal": "^1.0.0",
+    "basic-buttons": "^1.0.0",
+    "jquery": "^2.1.4",
+    "kjantzer-backbone-subviews": "^0.3.1",
+    "underscore": "^1.8.3"
+  }
+}

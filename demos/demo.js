@@ -7,9 +7,9 @@ var LOCATIONS = ['Oregon', 'Idaho', 'Washington', 'Montana', 'California'];
 
 Demo.Model = Backbone.Model.extend({
 	defaults: function(){
-	
+		
 		// spoofed data using Chance.js
-		return {
+		return{
 			label: chance.first()+' '+chance.last(),
 			email: chance.email(),
 			gender: chance.gender(),
@@ -42,7 +42,7 @@ Demo.Collection = SortableCollection.extend({
 	addModels: function(num){
 		// spoof 200 models
 		var models = [];
-		for(var i=0; i<num; i++){models.push({});}
+		for(var i=0; i<num; i++){models.push({id: i+1});}
 		this.add(models);
 		this.trigger('reset');
 	}
@@ -55,11 +55,10 @@ Demo.Controller = ListController.extend({
 	
 	el: '#demo',
 	listView: 'Demo.ControllerRow',
-	
-	events: {
-		'dblclick .filter-bar': 'toggleFullscreen',			// this is custom functionality for this demo cause I thought it would be cool ;)
-		'keyup input.filter' : 'filterCollectionFromInput'  // since we overrode events, we add this back in (it is set by default on FilterView)
-	},
+
+	allowDownload: 'saveToCSV',
+	viewBtn: true,
+	allowPresets: true,
 	
 	toggleFullscreen: function(e){
 		this.$el.hasClass('fullscreen') ? this.$el.removeClass('fullscreen') : this.$el.addClass('fullscreen')		
@@ -73,6 +72,27 @@ Demo.Controller = ListController.extend({
 		this.collection = new Demo.Collection();
 		
 		this.setActiveFilters( this.collection.filterVals() )
+	},
+	
+	bulkActions: [{
+		label: 'Email',
+		onClick: 'emailSelected'
+	},{
+		label: 'Delete',
+		icon: 'trash',
+		onClick: 'deleteSelected'
+	}],
+	
+	emailSelected: function(){
+		var emails = this.getCurrentCollection().pluck('email');
+		Modal.alert('Send Email to:', emails.join('<br>'));
+	},
+	
+	deleteSelected: function(){
+		var coll = this.getCurrentCollection();
+		Modal.confirmDelete('Delete '+coll.length+' records?', '', function(){
+			console.log('Implement method to delete the following', coll.models);
+		})
 	},
 	
 	filters: {
@@ -172,7 +192,7 @@ Demo.ControllerRow = Backbone.View.extend({
 	
 	render: function(){
 		
-		this.renderTemplate();
+		this.$el.html( _.template(this.template)(this.model.templateData()) );
 		
 		return this;
 	}

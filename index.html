@@ -15,232 +15,336 @@
 
 </script>
 
-<script src="lib/chance.min.js"></script>		<!-- for demoing purposes -->
+<!-- For creating random list of data -->
+<script src="lib/chance.min.js"></script>
 
-<!-- Backbone.js Dependencies -->
-<script src="lib/jquery.min.js"></script>
-<script src="lib/amplify.min.js"></script>			<!-- local storage for remembering filters -->
-<script src="lib/liquidmetal.js"></script>			<!-- not required, but makes fuzzy searching possible -->
-<script src="lib/waypoints.min.js"></script>		<!-- for infinite scrolling -->
-<script src="lib/underscore.min.js"></script>
-<script src="lib/underscore.string.min.js"></script>
-<script src="lib/backbone.min.js"></script>
-<script src="lib/util.js"></script>
-<script src="lib/dropdown/Dropdown.js"></script>
+<!-- compiled dependency files; see Gruntfile.js -->
+<script src="demo-dependencies.js"></script>
 
-<!-- Bootstrap 3 - http://getbootstrap.com -->
-<link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
 
-<!-- ListController View files -->
 <link href="style.css" rel="stylesheet" type="text/css">
-<script src="src/SortableCollection.js"></script>
-<script src="src/InfiniteListView.js"></script>
-<script src="src/FilterView.js"></script>
-<script src="src/ListController.js"></script>
+<script src="list-controller.js"></script>
 
 </head>
 <body>
 
-<div class="modal-container">
+<a href="https://github.com/kjantzer/backbone-list-controller" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#FFB74D; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 
-<div class="navbar">
-  <div class="container">
-
-    <a class="navbar-brand" href="#">Blackstone UI Components</a>
-
-    <ul class="nav navbar-nav">
-	  <li class="active"><a href="http://kjantzer.github.io/backbonejs-list-controller-view/">List Controller</a></li>
-	  <li class=""><a href="http://kjantzer.github.io/backbonejs-panel-view/">Panel</a></li>
-	  <li class=""><a href="http://kjantzer.github.io/backbonejs-dropdown-view/">Dropdown</a></li>
-	  <li class=""><a href="http://kjantzer.github.io/backbonejs-modal-view/">Modal</a></li>
-	  <li class=""><a href="http://kjantzer.github.io/backbonejs-model-editor-view/">Model Editor</a></li>
-	  <li class=""><a href="http://kjantzer.github.io/basic-buttons/">Basic Buttons</a></li>
-	</ul>
+<header>
     
-  </div><!-- /.container -->
-</div><!-- /.navbar -->
-
-<a href="https://github.com/kjantzer/backbonejs-list-controller-view"><img style="position: absolute; top: 0; right: 0; border: 0; z-index:100" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-
-
-
-
-<div class="masthead" style="position: relative; margin-top: -20px; padding-top: 20px;">
-	<div style="background: #2c3033; height: 70%; position: absolute; top: 0; width: 100%;"></div>
-
-	<div class="container">
-		<div class="col-lg-8 col-lg-offset-2">
-		
-		<div style="color: #fff;">
 		<h1>List Controller View</h1>
-		<p style="font-weight: 300; line-height: 1.3em; font-size: 1.5em;">A powerful <a href="http://backbonejs.org/" style="color: #fff;">Backbone.js</a> class that renders a collection of models as a list with infinite scrolling, sorting, filtering, and search field.</p>
-		</div>
-		<br>
+		<h3>A powerful Backbone.js class that renders a collection of models as a list with infinite scrolling, sorting, filtering, and search field.</h3>
+        <br><br><br><br><br>
+        
+</header>
 		
-		<div  class="demos clearfix panel">
-			
-			<div id="demo"></div>
-			
-		</div>
-		
-		<br>
-		
-		<p style="color: #888"><b>Tips:</b>
-			<br>• Apply a filter (color or location), then change that filter but hold cmd/ctrl when you do.
-			<br>• Try searching for name or email.
-			<br>• Then try typing "loc:" proceeded by a location name. Ex: "loc:oregon".
-			<br>• Double click filter bar to toggle fullscreen.
-			</p>
-		
-		</div> <!-- col -->
-	</div> <!-- container -->
-</div><!-- masthead -->
-
-
-<div class="container">
-	<div class="col-lg-8 col-lg-offset-2">
-	
-	<br>
-	
-	<h3>Dependencies</h3>
-	<div class="panel clearfix">
-	<ul>
-		<li><a href="http://kjantzer.github.io/backbonejs-dropdown-view/">Dropdown.js</a></li>
-		<li><a href="https://github.com/kjantzer/basic-buttons">Basic Buttons</a></li>
-		<li><a href="imakewebthings.com/jquery-waypoints/">Waypoints.js</a></li>
-		<li>Backbone, Underscore, Underscore.String, <a href="https://gist.github.com/kjantzer/9259523">Backbone.Util</a>, and of course jQuery</li>
-		<li><a href="https://github.com/rmm5t/liquidmetal">LiquidMetal.js</a> (if you want fuzzy searching)
-	</ul>
+        
+<section>
+    
+	<div  class="demos clearfix panel">
+		<div id="demo" class="demo"></div>
 	</div>
 	
 	<br>
 	
-	<h3>How to use</h3>
-	
-	<div class="clearfix panel">
-	
-	<p>Here is the ListController related classes that make up this demo.</p>
-	
-<pre><code>
-Demo.Collection = SortableCollection.extend({
-	
-	model: Demo.Model,
-	
-	defaultSort: 'label',
-	
-	// setting the available filters here will remember the selected filters in local storage
-	filters: [
-		{key: 'gender'},
-		{key: 'color'},
-		{key: 'location'}
-	]
-	
-})
+    <blockquote>
+	<p><b>Tips:</b>
+		<br>• Apply a filter (color or location), then change that filter but hold cmd/ctrl when you do.
+        <br>• Click on the "count" button to reveal "bulk actions"
+		<br>• Try searching for name or email.
+		<br>• Then try typing "loc:" proceeded by a location name. Ex: "loc:oregon".
+		</p>
+    </blockquote>
 
-Demo.Controller = ListController.extend({
+    <hr>
+    
+    <h1>Overview</h1>
+    
+    <p>In any application dealing with a significant amount of data, displaying a list of data will be necessary. This could be for reporting, work progress, or data review. Whatever the use case, List Controller lessens the burden of generating these list.</p>
+    
+    <p>List Controller improves DOM responsiveness by lazy loading the rows with infinite scrolling. The library also provides common list actions: sorting, filtering, and bulk actions. Filters are stored in local storage so that the application remembers the last selected filter set. In addition, multiple filters can be saved as a "preset" for quickly using later.</p>
+    
+    <p>This library has been 3+ years in the making here at <a href="http://www.blackstoneaudio.com/">Blackstone Audio</a>. It is used everyday in dozens of areas inside our ERP application and is constantly being improved.</p>
+    
+    <p>List Controller relies heavliy on <a href="http://kjantzer.github.io/backbone-dropdown/">Dropdown.js</a> for the list actions (sort, filter, and bulk actions).</p>
+    
+    
+<!-- BASIC USE ======================================================== -->
+    <hr>
+	
+	<h1>Basic use</h1>
+	
+	<p>To use List Controller, you at least need these three things:</p>
+	
+    <p><b>1) Collection</b></p>
+<pre>
+var Coll = SortableCollection.extend({})
+</pre>
+
+<p><b>2) List View</b> (view for each row)</p>
+<pre>
+var ListView = Backbone.View.extend({
+    tagName: 'li',
+    className: 'row',
+    
+    render: function(){
+        this.$el.html(this.model.get('label'))
+        return this;
+    }
+})
+</pre>
+
+<p><b>3) List Controller</b></p>
+<pre>
+var Controller = ListController.extend({
 	
 	el: '#demo',
-	listView: 'Demo.ControllerRow',
+	listView: ListView,
 	
+    // tell infinite scroll to load more when reaching the end of this list
 	scrollContext: '#demo .list',
 	
 	initialize: function(){
 		
-		this.collection = new Demo.Collection();
-		
-		this.setActiveFilters( this.collection.filterVals() )
-		
-	},
-	
-	filters: {
-		
-		'gender': {
-			values: [
-				{label: 'Clear', val: ''},
-				'divider',
-				{label: 'Male', val: 'Male'},
-				{label: 'Female', val: 'Female'},
-			],
-			filterBy: 'text'
-		},
-		
-		'color': {
-			values: [
-				{label: 'Clear', val: ''},
-				'divider',
-				{label: 'Blue', val: 'blue'},
-				{label: 'Yellow', val: 'yellow'},
-				{label: 'Green', val: 'green'},
-				{label: 'Red', val: 'red'},
-				{label: 'Orange', val: 'orange'},
-			],
-			filterBy: 'text',
-			multi: true			// hold cmd/ctrl to select multiple values
-		},
-		
-		'location': {
-			values: [
-				{label: 'Clear', val: ''},
-				'divider',
-				{label: 'Oregon', val: 'Oregon'},
-				{label: 'Idaho', val: 'Idaho'},
-				{label: 'Washington', val: 'Washington'},
-				{label: 'Montana', val: 'Montana'},
-				{label: 'California', val: 'California'},
-			],
-			filterBy: 'text',
-			multi: true
-		}
-		
-	},
-	
-	filterContexts: {
-	
-		'default': function(term, model){
-			return [ _.score(model.get('label'), term), _.score(model.get('email'), term) ]
-		},
-		
-		'email:': function(term, model){
-			return [ _.score(model.get('email'), term) ]
-		},
-		
-		'color:': function(term, model){
-			return [ _.score(model.get('color'), term) ]
-		},
-		
-		'location:': function(term, model){
-			return [ _.score(model.get('location'), term) ]
-		}
-	},
-	
-	sorts: [
-		{label: 'Name', val: 'label'},
-		{label: 'Location', val: 'location'}
-	]
-	
+        var fakeData = [], i=0;
+        while(i++<60){ fakeData.push({id: i, label: 'Row '+i})}
+        
+        this.collection = new Coll(fakeData);
+	}	
 })
-</code></pre>
-	
-	</div>
 
-	<hr>
+var listController = new Controller();
+
+// later... render the controller
+listController.render();
+</pre>
 	
-	<small>Built by Kevin Jantzer, Blackstone Audio Inc. <a href="http://chancejs.com">Chance.js</a> is used to create the demo.</small>
-		
-		<br><br>
+    <p><b>Working Example</b></p>
+    <p>Assuming your collection has some data in it, the code above is all you need to render an infinite scrolling list. See demo-2.js</p>
+
+    <div id="demo-2" class="demo"></div>
+
+
+<!-- PREPARING ======================================================== -->
+    <hr>    
+    <h1>Preparing for other features</h1>
+    
+    <p>Before adding sorts, filters, and other options, it is best to specify the following options on your SortableCollection for things to work right.</p>
+    
+    <h3><code>key</code></h3>
+    <p>This is the key used to save selected sorts and filters to local storage. You want this unique so as not to conflict with other ListControllers you may use other places.</p>
+    
+    <h3><code>defaultSort</code></h3>
+    <p>How should the collection be sorted upon first loaded?</p>
+    
+    <h3><code>defaultDesc</code> <small>optional</small></h3>
+    <p>Should the sort start in descending order?</p>
+    
+    <h3><code>dbSort</code> <small>optional</small></h3>
+    <p>Is the sorting done clientside in the browser, or should the server do the sorting instead? If this is set to <code>true</code>, the collection will be refetched when sort changes to allow the server to return the new sorted data.</p>
+    
+<pre>
+var Coll = SortableCollection.extend({
+    
+    key         : 'my-list-controller-collection',
+	defaultSort : 'id',
+	defaultDesc	: false,
+	dbSort      : false,
+    
+})
+</pre>
+    
+    
+<!-- SORTS ======================================================== -->
+    <hr>
+    <h1>Sorting <code>sorts</code></h1>
+    
+    <p>To allow the user to sort the data, add a list of available sorts to the ListController</p>
+    
+<pre>
+var Controller = ListController.extend({
+    
+    sorts: [
+		{label: 'ID', val: 'id'},
+		{label: 'Label', val: 'label'},
+        {label: 'Custom Label', val: 'custom-label-sort'}
+	]
+    
+})
+</pre>
+
+    <p>By default, sorting uses the <code>val</code>, for example "id", and looks for that val on the model: <code>return model.get(val);</code></p>
+    
+    <p>If you need a custom sorting function for a particular sort key, like <code>custom-label-sort</code>, you can specify it in the SortableCollection</p>
+    
+<pre>
+var Coll = SortableCollection.extend({
+    
+    sorts: {
+		'custom-label-sort': function(model, key, isDesc){
+            return model.get('randNum')
+		}
+	}
+    
+})
+</pre>
+
+    <div id="demo-3" class="demo"></div>
+    
+    <blockquote>
+        <p>You'll notice sorting by label doesn't use "natural" sorting. You can achieve this by extending backbone collections with <a href="https://gist.github.com/kjantzer/7027717">this gist</a>.</p>
+    </blockquote>
+
+    
+<!-- FILTERS ======================================================== -->
+
+    <hr>
+    <h1>Filtering <code>filters</code></h1>
+    
+    <p>This is one of the most powerful features of ListController. It relies on <a href="http://kjantzer.github.io/backbone-dropdown/">Dropdown.js</a> for rendering and controlling the selection of filters and thus, uses a similar structure.</p>
+    
+    <h4>SortableCollection setup</h4>
+    
+    <p>Filters are saved on the SortableCollection and have filter settings saved there. At bare minimum, you need to specify all the filter keys.</p>
+    
+<pre>
+var Coll = SortableCollection.extend({
+    
+    filters: [
+        {key: 'filter-1'},
+        {key: 'filter-2'},
+        {key: 'filter-3'}
+    ]
+    
+})
+</pre>
+
+    <p>If you wish for a filter to default to certain value, you can set that by using <code>val</code>. <i>Note: the value will only be used if the user has not selected another value for that filter.</i></p>
+        
+    <p>If you want the filtering to happen on the server for a particular key, add <code>db:true</code>.</p>
+
+<pre>
+var Coll = SortableCollection.extend({
+    
+    filters: [{ 
+        key: 'key-string',
+        val: 'preset value',
+        db: true
+    }]
+    
+})
+</pre>
+
+    <h4>Setting up the filters</h4>
+    
+    <p>Filters are setup on the ListController using a hash of filter keys and their settings.</p>
+    
+<pre>
+var Controller = ListController.extend({
+
+    filters: {
+        'filter-1': { /* settings*/ },
+        'filter-2': { /* settings*/ },
+        'filter-3': { /* settings*/ },
+    }
+    
+})
+</pre>
+    
+    <h4>Filter settings</h4>
+    
+    <h3><code>label</code> <small>optional: string</small></h3>
+    
+    <p>The label for the filter will made from the key using <code>_.humanize()</code>. For example, if the key is "filter-1", it will become "Filter 1". If you do not like this default naming convention, you can specify the <code>label</code> to be something else.</p>
+
+    <h3><code>prefix</code> <small>optional: string</small></h3>
+    
+    <p>When a filter value is selected, the value's label will be displayed. Sometimes the value itself conflicts with other filter values. For example, maybe multiple filter keys have a "Many" filter value. It would be confusing the see multiple filters that say "Many" with no other context. Setting a prefix to something like "Filter 1: " will make the selected filter display as "Filter 1: Many".</p>
+
+    <h3><code>values</code> <small>hash / hash</small></h3>
+    
+    <p>This is the core of each filter. It's structure is the same as Dropdown.js. It accepts a hash or a function returning a hash.</p>
+    
+<pre>
+values: [
+    {label: 'Clear Filter', val: ''},
+    'divider',
+    {label: 'Even ID', val: 'even'},
+    {label: 'Odd ID', val: 'odd'}
+]
+</pre>
+    
+    
+    <h3><code>filterBy</code> <small>optional: string preset / function</small></h3>
+    
+    <p>When a filter is selected, this is the method that is used to filter the data. There are presets created that can be reviewed under <code>_defaultFilterMethods</code> in ListController.Settings.js</p>
+    
+    <p><b>By default</b>, the <code>text</code> preset is used which attempts to compare the filter value on the model itself using a method or attribute of the same name:<br>
+    <code>model[filterVal].call() || model.get(filterVal)</code></p>
+    
+    <p>Other presets include: <code>number</code>, <code>int</code>, <code>array</code>, and <code>model_id</code>.</p>
+    
+    <p>Or you can use a function for your own logic:<br>
+    <code>function(model, filterVal, filterKey){}</code>
+    </p>
+    
+    
+    <h3><code>multi</code> <small>optional: bool</small></h3>
+    
+    <p>If set to true, multiple values can be selected by holding "cmd/ctrl". It's important to note that this means the <code>filterVal</code> in <code>filterBy</code> <b>will be an array</b>, not a string.</p>
+    
+    <h3><code>defaultValIndex</code> <small>optional: int</small></h3>
+    
+    <p>When the filters are "cleared", they go back to the default filter value which is the <b>first (0)</b> filter. This is generally fine most of the time, but if you wish for a different value other than the first to be the default, set the <code>defaultValIndex</code></p>
+    
+    
+    <h3><code>w</code> <small>optional: int</small></h3>
+    
+    <p>Sets the <b>width</b> of the filter dropdown menu.</p>
+    
+    
+<!-- FILTER PRESETS ======================================================== -->
+    <hr>
+    <h1>Filtering Presets <code>filterPresets</code></h1>
+    
+    <p>For now, see <code>plugins/ListController.Presets.js</code></p>
+    
+    <p><img src="http://i.imgur.com/zxAkAfY.gif"></p>
+    
+    
+<!-- BULK ACTIONS ======================================================== -->
+    <hr>
+    <h1>Bulk Select w/ Actions <code>bulkActions</code></h1>
+    
+    <p>For now, see <code>plugins/ListController.BulkSelect.js</code></p>
+    
+    <p><img src="http://i.imgur.com/Yf0JQEm.gif"></p>
+    
+    <hr>
+
+    <h1>License</h1>
+
+    <p>MIT © <a href="http://kevinjantzer.com">Kevin Jantzer</a></p>
+
+
+    <hr>
+
+    <small>Built by <a href="http://kevinjantzer.com">Kevin Jantzer</a>, <a href="http://blackstoneaudio.com">Blackstone Audio Inc.</a></small>
 	
-	</div>
+    
+</section>
 
 
 <script id="template-row" type="text/html">
 	<div class="color-{{color}}"></div>
 	<h4>{{label}} <span>{{email}}</h4>
 	<p>{{location}}</p>
+	<div class="v-compare"><br>I am only displayed when in the comparison mode. More data can be loaded here to compare the records.<br><br>Compare mode is limited to 8 results as it becomes unusable with too many.<br><br>A `view:change` event is triggered for each change.</div>
 </script>
 
-<script type="text/javascript" src="demo.js"></script>
-
-</div>
+<script type="text/javascript" src="demos/demo.js"></script>
+<script type="text/javascript" src="demos/demo-2.js"></script>
+<script type="text/javascript" src="demos/demo-3.js"></script>
 
 </body>
 </html>
